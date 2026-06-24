@@ -1,9 +1,21 @@
 import React from "react";
 
-function ToyForm() {
+function ToyForm({ onAddToy }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newToyObject = Object.fromEntries(new FormData(e.target));
+
+    const newToy = {
+      ...newToyObject,
+    };
+
+    onAddToy(newToy);
+  };
+
   return (
     <div className="container">
-      <form className="add-toy-form">
+      <form className="add-toy-form" onSubmit={handleSubmit}>
         <h3>Create a toy!</h3>
         <input
           type="text"

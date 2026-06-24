@@ -1,24 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ToysPage from "./ToysPage";
 
 import Header from "./Header";
-import ToyForm from "./ToyForm";
-import ToyContainer from "./ToyContainer";
 
 function App() {
-  const [showForm, setShowForm] = useState(false);
-
-  function handleClick() {
-    setShowForm((showForm) => !showForm);
-  }
-
   return (
     <>
       <Header />
-      {showForm ? <ToyForm /> : null}
-      <div className="buttonContainer">
-        <button onClick={handleClick}>Add a Toy</button>
-      </div>
-      <ToyContainer />
+      <ToysPage />
     </>
   );
 }
