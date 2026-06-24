@@ -10,6 +10,11 @@ function ToyContainer({ toys, onDeleteToy }) {
 
   function handleUpdateToy(id) {
     const toyToUpdate = toyList.find((toy) => toy.id === id);
+
+    if (!toyToUpdate) {
+      console.error(`Toy with ID ${id} not found`);
+      return;
+    }
     fetch(`http://localhost:3001/toys/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -17,7 +22,10 @@ function ToyContainer({ toys, onDeleteToy }) {
         likes: toyToUpdate.likes + 1,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Update Failed!");
+        return res.json();
+      })
       .then((updatedToy) => {
         setToyList((currentToys) =>
           currentToys.map((toy) =>

@@ -10,7 +10,10 @@ function ToysPage() {
 
   useEffect(() => {
     fetch("http://localhost:3001/toys")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Fetch Failed!");
+        return res.json();
+      })
       .then((toys) => setIsToys(toys));
   }, []);
 
@@ -24,10 +27,14 @@ function ToysPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newToy),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Adding Toy Failed!");
+        return res.json();
+      })
       .then((savedToy) => {
         setIsToys((currentToys) => [...currentToys, savedToy]);
-      });
+      })
+      .catch(console.error);
   }
 
   function handleDeleteToy(id) {
